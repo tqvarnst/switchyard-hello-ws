@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:1.0" name="switchyard-hello-ws" targetNamespace="urn:com.redhat.sa.demos.switchyard:switchyard-hello-ws:0.0.1-SNAPSHOT">
+  <sca:composite name="switchyard-hello-ws" targetNamespace="urn:com.redhat.sa.demos.switchyard:switchyard-hello-ws:0.0.1-SNAPSHOT">
+    <sca:component name="SayHelloBean">
+      <bean:implementation.bean class="com.redhat.sa.demos.switchyard.hellows.SayHelloBean"/>
+      <sca:service name="SayHello">
+        <sca:interface.java interface="com.redhat.sa.demos.switchyard.hellows.SayHello"/>
+      </sca:service>
+    </sca:component>
+    <sca:service name="SayHelloPortType" promote="SayHelloBean/SayHello">
+      <sca:interface.wsdl interface="META-INF/SayHello.wsdl#wsdl.porttype(SayHelloPortType)"/>
+      <soap:binding.soap>
+        <soap:contextMapper soapHeadersType="VALUE"/>
+        <soap:wsdl>META-INF/SayHello.wsdl</soap:wsdl>
+        <soap:wsdlPort>SayHelloPort</soap:wsdlPort>
+        <soap:socketAddr>:18001</soap:socketAddr>
+        <soap:contextPath>switchyard-hello-ws</soap:contextPath>
+      </soap:binding.soap>
+    </sca:service>
+  </sca:composite>
+</switchyard>
